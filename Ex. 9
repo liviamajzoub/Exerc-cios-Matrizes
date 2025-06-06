@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define NL 5
+#define NC 10
+
+char letraAleatoria() {
+    return 'a' + (rand() % 4);
+}
+
+void geraRespostas(char respostas[NL][NC]) {
+    for (int i = 0; i < NL; i++) {
+        for (int j = 0; j < NC; j++) {
+            respostas[i][j] = letraAleatoria();
+        }
+    }
+}
+
+void geraGabarito(char gabarito[NC]) {
+    for (int i = 0; i < NC; i++) {
+        gabarito[i] = letraAleatoria();
+    }
+}
+
+void compara(char gabarito[], char respostas[][NC], int nl, int nc, int pontua[]) {
+    for (int i = 0; i < nl; i++) {
+        pontua[i] = 0;
+        for (int j = 0; j < nc; j++) {
+            if (respostas[i][j] == gabarito[j]) {
+                pontua[i]++;
+            }
+        }
+    }
+}
+
+void imprimeRespostas(char respostas[NL][NC], int nl, int nc) {
+    for (int i = 0; i < nl; i++) {
+        printf("Aluno %d: ", i + 1);
+        for (int j = 0; j < nc; j++) {
+            printf("%c ", respostas[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void imprimeGabarito(char gabarito[], int nc) {
+    printf("Gabarito : ");
+    for (int i = 0; i < nc; i++) {
+        printf("%c ", gabarito[i]);
+    }
+    printf("\n");
+}
+
+void imprimePontuacoes(int pontua[], int nl) {
+    printf("\nPontuação:\n");
+    for (int i = 0; i < nl; i++) {
+        printf("Aluno %d: %d acertos\n", i + 1, pontua[i]);
+    }
+}
+
+int main() {
+    char gabarito[NC];
+    char respostas[NL][NC];
+    int pontua[NL];
+
+    srand(time(NULL)); 
+
+    geraGabarito(gabarito);
+    geraRespostas(respostas);
+    compara(gabarito, respostas, NL, NC, pontua);
+
+    imprimeGabarito(gabarito, NC);
+    imprimeRespostas(respostas, NL, NC);
+    imprimePontuacoes(pontua, NL);
+
+    return 0;
+}
