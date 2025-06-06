@@ -1,0 +1,117 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define TAM 10
+
+void criarMatrizes(int a[TAM][TAM], int b[TAM][TAM]) {
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            a[i][j] = rand() % 100;
+            b[i][j] = rand() % 100;
+        }
+    }
+    printf("Matrizes criadas com sucesso!\n");
+}
+
+void imprimirMatriz(const char *nome, int m[TAM][TAM]) {
+    printf("Matriz %s:\n", nome);
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            printf("%3d ", m[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void somarMatrizes(int a[TAM][TAM], int b[TAM][TAM]) {
+    int resultado[TAM][TAM];
+    for (int i = 0; i < TAM; i++)
+        for (int j = 0; j < TAM; j++)
+            resultado[i][j] = a[i][j] + b[i][j];
+
+    imprimirMatriz("Soma", resultado);
+}
+
+void subtrairMatrizes(int a[TAM][TAM], int b[TAM][TAM]) {
+    int resultado[TAM][TAM];
+    for (int i = 0; i < TAM; i++)
+        for (int j = 0; j < TAM; j++)
+            resultado[i][j] = a[i][j] - b[i][j];
+
+    imprimirMatriz("Subtracao", resultado);
+}
+
+void multiplicarPorConstante(int a[TAM][TAM], int constante) {
+    int resultado[TAM][TAM];
+    for (int i = 0; i < TAM; i++)
+        for (int j = 0; j < TAM; j++)
+            resultado[i][j] = a[i][j] * constante;
+
+    imprimirMatriz("Multiplicada por constante", resultado);
+}
+
+int main() {
+    int a[TAM][TAM], b[TAM][TAM];
+    int criadas = 0;
+    int opcao, constante;
+
+    srand(time(NULL));
+
+    do {
+        printf("\nMenu de Opcoes:\n");
+        printf("0 - Criar matrizes 10x10\n");
+        printf("1 - Imprimir matrizes originais\n");
+        printf("2 - Somar matrizes\n");
+        printf("3 - Subtrair matriz A - B\n");
+        printf("4 - Multiplicar matriz A por uma constante\n");
+        printf("9 - Sair\n");
+        printf("Escolha: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 0:
+                criarMatrizes(a, b);
+                criadas = 1;
+                break;
+            case 1:
+                if (criadas) {
+                    imprimirMatriz("A", a);
+                    imprimirMatriz("B", b);
+                } else {
+                    printf("Crie as matrizes primeiro (opcao 0).\n");
+                }
+                break;
+            case 2:
+                if (criadas)
+                    somarMatrizes(a, b);
+                else
+                    printf("Crie as matrizes primeiro.\n");
+                break;
+            case 3:
+                if (criadas)
+                    subtrairMatrizes(a, b);
+                else
+                    printf("Crie as matrizes primeiro.\n");
+                break;
+            case 4:
+                if (criadas) {
+                    printf("Digite a constante: ");
+                    scanf("%d", &constante);
+                    multiplicarPorConstante(a, constante);
+                } else {
+                    printf("Crie as matrizes primeiro.\n");
+                }
+                break;
+            case 9:
+                printf("Encerrando...\n");
+                break;
+            default:
+                printf("Opcao invalida.\n");
+        }
+
+    } while (opcao != 9);
+
+    return 0;
+}
